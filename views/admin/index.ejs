@@ -16,31 +16,34 @@
             <h1 class="col-12">Mis publicaciones</h1>
             <article class="col-12">
                 <div class="w-100 text-end">
-                    <button type="button" class="btn btn-success">Crear publicación</button>
+                    <a class="btn btn-success" href="admin/agregar_publicacion">Crear publicación</a>
                 </div>
+                <% if(mensaje && mensaje.length > 0) {%>
+                  <h4><i class="fa-solid fa-info"></i>
+                    <%=mensaje%>
+                  </h4>
+                <%}%>
                 <table class="table mt-3">
                     <thead>
                       <tr>
                         <th scope="col">titulo</th>
                         <th scope="col">resumen</th>
                         <th scope="col">votos</th>
+                        <th scope="col">acciones</th>
                       </tr>
                     </thead>
                     <tbody>
+                      <% publicaciones.forEach((publicacion) => { %>
                       <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
+                        <td><%=publicacion.titulo%></td>
+                        <td><%=publicacion.resumen%></td>
+                        <td><%=publicacion.votos%></td>
+                        <td>
+                          <a href="#" class="btn btn-danger mx-1"><i class="fa-solid fa-trash fa-1x"></i></a>
+                          <a href="#" class="btn btn-primary mx-1"><i class="fa-solid fa-pencil fa-1x"></i></a>
+                        </td>
                       </tr>
-                      <tr>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
-                      <tr>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                      </tr>
+                      <%})%>
                     </tbody>
                 </table>
             </article>

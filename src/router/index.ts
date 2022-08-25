@@ -109,10 +109,4 @@ router.post('/procesar_iniciar_sesion', (request: Request, response: Response) =
 
 router.use('/admin', admin);
 
-router.get('/cerrar_session', (request: Request, response: Response)=>{
-    request.session.destroy((err) => {
-        response.redirect('/');
-    });
-})
-
 export { router };
