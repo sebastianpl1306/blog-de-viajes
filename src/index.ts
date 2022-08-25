@@ -1,6 +1,3 @@
-//paquetes y librerias externas
-import express from 'express';
-
 //funciones y variables locales
 import { PORT } from './config';
 import { router } from './router/index'
@@ -15,5 +12,4 @@ server.initiateAndStart(
 
 const appServer = server.app;
 
-appServer.use('/', router)
-appServer.use('/static', express.static(__dirname + '/public'));
+appServer.use('/', router);

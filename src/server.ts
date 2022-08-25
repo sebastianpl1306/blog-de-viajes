@@ -3,6 +3,7 @@ import session from 'express-session';
 import flash from 'express-flash'
 import express from "express";
 import logger from 'morgan';
+import path from 'path';
 
 export class Server {
     private _app: Application;
@@ -40,13 +41,13 @@ export class Server {
     }
 
     public async initiateAndStart(serverPort: number, connection: () => void
-    ): Promise<any> {
+    ): Promise<void> {
         await this.initiate(serverPort, connection);
         await this.start();
     }
 
     public async initiate(serverPort: number, connection: () => void
-    ): Promise<any> {
+    ): Promise<void> {
         if(!this.initiated) {
             this._serverPort = serverPort;
             this.defaultConfigurations();
@@ -57,7 +58,7 @@ export class Server {
         }
     }
 
-    public async start(): Promise<any> {
+    public async start(): Promise<void> {
         if(!this.started) {
             await new Promise((resolve, reject) => {
                 if(this._app) {
@@ -77,6 +78,8 @@ export class Server {
     private defaultConfigurations(): void {
         if(this.app) {
             this.app.set('view engine', 'ejs');
+            this.app.set('views', path.join(__dirname, '../views'));
+            this.app.use('/static', express.static(path.join(__dirname, '../src/public')));
             this.app.use(logger('dev'))
             this.app.use(express.json({ limit: '100mb' }));
             this.app.use(express.urlencoded({ limit: '100mb', extended: true }));
