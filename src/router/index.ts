@@ -7,16 +7,29 @@ const router: Router = Router();
 router.get('/', (req: Request, res: Response) =>{
     try{
        pool.getConnection((error, connection) =>{
-            const query = `
+            let consulta = "";
+            let modificadorConsulta = "";
+            const busqueda = ( req.query.busqueda ) ? req.query.busqueda : "";
+            if (busqueda != "") {
+                modificadorConsulta = `
+                    WHERE
+                    titulo LIKE '%${busqueda}%' OR
+                    resumen LIKE '%${busqueda}%' OR
+                    contenido LIKE '%${busqueda}%'
+                `;
+            }
+
+            consulta = `
                 SELECT 
                 publicaciones.id, titulo, resumen, fecha_hora, pseudonimo, votos, avatar 
                 FROM blog_de_viajes.publicaciones
                 INNER JOIN autores ON publicaciones.autor_id = autores.id
+                ${modificadorConsulta}
                 ORDER BY fecha_hora DESC 
                 LIMIT 5;`;
 
-            connection.query(query, (error, filas) =>{
-                res.render("index", {publicaciones: filas});
+            connection.query(consulta, (error, filas) =>{
+                res.render("index", {publicaciones: filas, busqueda: busqueda});
             })
 
             connection.release();
