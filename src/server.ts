@@ -4,6 +4,7 @@ import flash from 'express-flash'
 import express from "express";
 import logger from 'morgan';
 import path from 'path';
+import fileUpload from 'express-fileupload';
 
 export class Server {
     private _app: Application;
@@ -85,6 +86,7 @@ export class Server {
             this.app.use(express.urlencoded({ limit: '100mb', extended: true }));
             this.app.use(session({ secret: 'token-muy-secreto', resave: true, saveUninitialized: true }));
             this.app.use(flash());
+            this.app.use(fileUpload());
         } else {
             throw new Error("The express app must be initiated you must start the server first")
         }

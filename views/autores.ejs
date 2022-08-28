@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/stylesheets/estilos.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>DevSeb</title>
+</head>
+<body>
+    <%- include('./partials/header-page') %>
+    <div class="image-background-home"></div>
+    <main class="container">
+        <section class="row">
+            <h1 class="col-12">AUTORES</h1>
+            <h2>Conoce a nuestros autores:</h2>
+            <% for(i=0; i < autores.length; i++){%>
+                <article class="col-12 border-bottom">
+                    <div class="row border">
+                        <div class="col-3 py-1">
+                            <%if(autores[i].avatar && autores[i].avatar != ""){%>
+                                <img src="static/avatars/<%=autores[i].avatar%>" class="image-avatar-autores" alt="...">
+                            <%} else{%>
+                                <img src="static/images/user.png" class="image-avatar-autores" alt="...">
+                            <%}%>
+                        </div>
+                        <div class="col-9 px-4">
+                            <div class="row">
+                                <h3><%= autores[i].pseudonimo%></h3>
+                                <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">id</th>
+                                        <th scope="col">Titulo</th>
+                                        <th scope="col">Resumen</th>
+                                        <th scope="col">Votos</th>
+                                      </tr>
+                                    </thead>
+                                        <%autores[i].publicaciones.forEach(publicacion => {%>
+                                            <tr>
+                                                <td><%=publicacion.id%></td>
+                                                <td><%=publicacion.titulo%></td>
+                                                <td><%=publicacion.resumen%></td>
+                                                <td><%=publicacion.votos%></td>
+                                            </tr>
+                                        <%});%>
+                                    </tbody>
+                                  </table>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            <% } %>
+        </section>
+    </main>
+    <%- include('./partials/footer-page') %>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

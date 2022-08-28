@@ -13,3 +13,20 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+.link-abrir-pagina-detalle-publicacion{
+    color: black;
+    text-decoration: none;
+}
+
+.link-abrir-pagina-detalle-publicacion:hover{
+    color: rgb(66, 66, 66);
+}
+
+.contenido-detalle-publicacion{
+    min-height: 70vh;
+}
+
+.image-avatar-autores{
+    max-height: 80px;
+}

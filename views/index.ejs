@@ -11,16 +11,27 @@
 </head>
 <body>
     <%- include('./partials/header-page') %>
+    <div class="row justify-content-end">
+        <form class="col-lg-4 col-md-6 col-sm-12 py-2 d-flex" action="/">
+            <input class="form-control me-2" type="search" placeholder="Search" name="busqueda" aria-label="Search" value="<%=busqueda%>">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
     <div class="image-background-home"></div>
     <main class="container">
         <section class="row">
             <h1 class="col-12">INICIO</h1>
             <h2>Aquí nuestras últimas publicaciones:</h2>
             <% for(i=0; i < publicaciones.length; i++){%>
+            <a class="link-abrir-pagina-detalle-publicacion" href="/publicacion/<%=publicaciones[i].id%>">
                 <article class="col-12 border-bottom">
                     <div class="row border">
-                        <div class="col-2">
-                            <img src="static/images/user.png" class="w-100" alt="...">
+                        <div class="col-2 pt-1">
+                            <%if(publicaciones[i].avatar && publicaciones[i].avatar != ""){%>
+                                <img src="static/avatars/<%=publicaciones[i].avatar%>" class="w-100" alt="...">
+                            <%} else{%>
+                                <img src="static/images/user.png" class="w-100" alt="...">
+                            <%}%>
                             <p class="text-center"><%= publicaciones[i].pseudonimo%></p>
                         </div>
                         <div class="col-10">
@@ -38,7 +49,17 @@
                         </div>
                     </div>
                 </article>
+            </a>
             <% } %>
+            <nav aria-label="Page navigation w-100 col-12">
+                <ul class="pagination justify-content-center mt-4">
+                  <li class="page-item"><a class="page-link" href="/?pagina=<%=pagina-1%>">Previous</a></li>
+                  <li class="page-item"><a class="page-link" href="/?pagina=1">1</a></li>
+                  <li class="page-item"><a class="page-link" href="/?pagina=2">2</a></li>
+                  <li class="page-item"><a class="page-link" href="/?pagina=3">3</a></li>
+                  <li class="page-item"><a class="page-link" href="/?pagina=<%=pagina+1%>">Next</a></li>
+                </ul>
+            </nav>
         </section>
     </main>
     <%- include('./partials/footer-page') %>
