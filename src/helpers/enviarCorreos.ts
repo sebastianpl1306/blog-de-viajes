@@ -19,7 +19,7 @@ export function enviarCorreoBienvenida(email: string, nombre: string) {
         subject: 'Bienvenido al blog de viajes',
         text: `Hola ${nombre}`
     }
-    transporter.sendMail(opciones, (error, info)=>{
+    transporter.sendMail(opciones, (error)=>{
         if (error) {
             console.log("[ERROR] enviarCorreoBienvenida error:",error);
         }

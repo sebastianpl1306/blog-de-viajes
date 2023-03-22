@@ -1,3 +1,6 @@
+import { config } from "dotenv";
+config();
+
 //funciones y variables locales
 import { PORT } from './config';
 import { router } from './router/index'

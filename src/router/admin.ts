@@ -1,4 +1,4 @@
-import {Router, Request, Response, query} from 'express';
+import {Router, Request, Response} from 'express';
 import { pool } from '../DB/index';
 import verifyLogin from './middlewares';
 
@@ -45,7 +45,7 @@ router.post('/procesar_agregar_publicacion', (request: Request, response:Respons
                 ${connection.escape(fecha)}
             )`;
         
-        connection.query(consulta, function (error, filas, campos) {
+        connection.query(consulta, function () {
             request.flash('mensaje', 'Publicación agregada');
             response.redirect("/admin");
         });
@@ -107,7 +107,7 @@ router.post('/procesar_editar_publicacion/:id', (request: Request, response: Res
                         fecha_hora = ${connection.escape(fecha)}
                         WHERE id = ${connection.escape(request.params.id)};`;
                     console.log(editarPublicacion);
-                    connection.query(editarPublicacion, (error, filas) =>{
+                    connection.query(editarPublicacion, () =>{
                         request.flash('mensaje', 'Publicación editada');
                         response.redirect("/admin");
                     })
@@ -138,7 +138,7 @@ router.get('/procesar_eliminar_publicacion/:id', (request: Request, response: Re
                     const eliminarPublicacion = `
                         DELETE FROM publicaciones
                         WHERE id = ${connection.escape(request.params.id)};`;
-                    connection.query(eliminarPublicacion, (error, filas) =>{
+                    connection.query(eliminarPublicacion, () =>{
                         request.flash('mensaje', 'Publicación eliminada');
                         response.redirect("/admin");
                     })
@@ -155,7 +155,7 @@ router.get('/procesar_eliminar_publicacion/:id', (request: Request, response: Re
 })
 
 router.get('/cerrar_session', (request: Request, response: Response)=>{
-    request.session.destroy((err) => {
+    request.session.destroy(() => {
         response.redirect('/');
     });
 })

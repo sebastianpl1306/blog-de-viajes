@@ -9,6 +9,8 @@ const router: Router = Router();
 router.get('/', (req: Request, res: Response) =>{
     try{
        pool.getConnection((error, connection) =>{
+            if (error) throw new Promise<void>((resolve, reject) => reject(error));
+
             let consulta = "";
             let modificadorConsulta = "";
             let modificadorPagina = "";
@@ -43,6 +45,7 @@ router.get('/', (req: Request, res: Response) =>{
                 ${modificadorConsulta}
                 ORDER BY fecha_hora DESC
                 ${modificadorPagina};`;
+
             connection.query(consulta, (error, filas) =>{
                 res.render("index", {publicaciones: filas, busqueda: busqueda, pagina: pagina});
             })
@@ -105,7 +108,7 @@ router.post('/procesar_registro', (request: Request, response: Response) =>{
                                             autores
                                             SET avatar = ${connection.escape(nombreArchivo)}
                                             WHERE id = ${connection.escape(id)}`;
-                                        connection.query(consultaAvatar, (error, filas, campos) =>{
+                                        connection.query(consultaAvatar, () =>{
                                             enviarCorreoBienvenida(email, pseudonimo);
                                             request.flash('mensaje','Usuario registrado con avatar');
                                             response.redirect('/registro');
@@ -196,7 +199,7 @@ router.get('/publicacion/:id/votar', (request: Request, response: Response) =>{
                         votos = votos + 1
                         WHERE id = ${connection.escape(request.params.id)}`;
 
-                    connection.query(consultaVoto, (error, filas)=>{
+                    connection.query(consultaVoto, ()=>{
                         response.redirect(`/publicacion/${request.params.id}`);
                     })
                 }else{
@@ -221,7 +224,7 @@ router.get('/autores', (request: Request, response: Response) =>{
             pseudonimo DESC, fecha_hora DESC;`;
         
         connection.query(consulta, (error, filas)=>{
-            let actualAutor:string | null = null;
+            let actualAutor = '';
             const autores: any[] = [];
             filas.forEach((autor: any) => {
                 if (autor.pseudonimo != actualAutor) {

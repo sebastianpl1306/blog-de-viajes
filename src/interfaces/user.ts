@@ -1,5 +1,3 @@
-import session,{ SessionData } from 'express-session';
-
 export interface ISession{
   id: number;
   email: string;
